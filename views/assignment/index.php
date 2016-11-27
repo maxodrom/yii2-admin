@@ -30,13 +30,11 @@ $columns[] = [
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php Pjax::begin(); ?>
-    <?=
-    GridView::widget([
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => $columns,
-    ]);
-    ?>
+    ]); ?>
     <?php Pjax::end(); ?>
 
 </div>

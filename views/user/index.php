@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use mdm\admin\components\Helper;
+use yii\widgets\Pjax;
+use mdm\admin\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel mdm\admin\models\searchs\User */
@@ -15,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?=
-    GridView::widget([
+    <?php Pjax::begin(); ?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -26,20 +28,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at:date',
             [
                 'attribute' => 'status',
-                'value' => function($model) {
-                    return $model->status == 0 ? 'Inactive' : 'Active';
+                'value' => function ($model) {
+                    return $model->status == User::STATUS_INACTIVE ?
+                        Yii::t('rbac-admin', 'Inactive') :
+                        Yii::t('rbac-admin', 'Active');
                 },
                 'filter' => [
-                    0 => 'Inactive',
-                    10 => 'Active'
-                ]
+                    User::STATUS_INACTIVE => Yii::t('rbac-admin', 'Inactive'),
+                    User::STATUS_ACTIVE => Yii::t('rbac-admin', 'Active')
+                ],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => Helper::filterActionColumn(['view', 'activate', 'delete']),
                 'buttons' => [
-                    'activate' => function($url, $model) {
-                        if ($model->status == 10) {
+                    'activate' => function ($url, $model) {
+                        if ($model->status == User::STATUS_ACTIVE) {
                             return '';
                         }
                         $options = [
@@ -49,11 +53,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-method' => 'post',
                             'data-pjax' => '0',
                         ];
+
                         return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, $options);
                     }
-                    ]
-                ],
+                ]
             ],
-        ]);
-        ?>
+        ],
+    ]); ?>
+    <?php Pjax::end(); ?>
 </div>
