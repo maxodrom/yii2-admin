@@ -30,11 +30,13 @@ class Helper
                 }
             }
         }
+
         return self::$_routes;
     }
 
     /**
      * Get assigned routes by default roles
+     *
      * @return array
      */
     protected static function getDefaultRoutes()
@@ -62,12 +64,15 @@ class Helper
                 }
             }
         }
+
         return self::$_defaultRoutes;
     }
 
     /**
      * Get assigned routes of user.
+     *
      * @param integer $userId
+     *
      * @return array
      */
     public static function getRoutesByUser($userId)
@@ -92,13 +97,16 @@ class Helper
                 }
             }
         }
+
         return self::$_userRoutes[$userId];
     }
 
     /**
      * Check access route for user.
+     *
      * @param string|array $route
      * @param integer|User $user
+     *
      * @return boolean
      */
     public static function checkRoute($route, $params = [], $user = null)
@@ -124,6 +132,7 @@ class Helper
                     return true;
                 }
             }
+
             return $user->can('/*', $params);
         } else {
             $routes = static::getRoutesByUser($userId);
@@ -136,6 +145,7 @@ class Helper
                     return true;
                 }
             }
+
             return isset($routes['/*']);
         }
     }
@@ -151,11 +161,13 @@ class Helper
         } elseif (($mid = Yii::$app->controller->module->getUniqueId()) !== '') {
             return '/' . $mid . '/' . $route;
         }
+
         return '/' . $route;
     }
 
     /**
      * Filter menu items
+     *
      * @param array $items
      * @param integer|User $user
      */
@@ -164,13 +176,16 @@ class Helper
         if ($user === null) {
             $user = Yii::$app->getUser();
         }
+
         return static::filterRecursive($items, $user);
     }
 
     /**
      * Filter menu recursive
+     *
      * @param array $items
      * @param integer|User $user
+     *
      * @return array
      */
     protected static function filterRecursive($items, $user)
@@ -191,6 +206,7 @@ class Helper
                 $result[$i] = $item;
             }
         }
+
         return $result;
     }
 
@@ -205,8 +221,10 @@ class Helper
      *     ]
      * ],
      * ```
+     *
      * @param array|string $buttons
      * @param integer|User $user
+     *
      * @return string
      */
     public static function filterActionColumn($buttons = [], $user = null)
@@ -218,8 +236,10 @@ class Helper
                     $result[] = "{{$button}}";
                 }
             }
+
             return implode(' ', $result);
         }
+
         return preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) use ($user) {
             return static::checkRoute($matches[1], [], $user) ? "{{$matches[1]}}" : '';
         }, $buttons);

@@ -46,52 +46,42 @@ class Configs extends \yii\base\Object
      * @var ManagerInterface .
      */
     public $authManager = 'authManager';
-
     /**
      * @var Connection Database connection.
      */
     public $db = 'db';
-
     /**
      * @var Connection Database connection.
      */
     public $userDb = 'db';
-
     /**
      * @var Cache Cache component.
      */
     public $cache = 'cache';
-
     /**
      * @var integer Cache duration. Default to a hour.
      */
     public $cacheDuration = 3600;
-
     /**
      * @var string Menu table name.
      */
     public $menuTable = '{{%menu}}';
-
     /**
      * @var string Menu table name.
      */
     public $userTable = '{{%user}}';
-
     /**
      * @var integer Default status user signup. 10 mean active.
      */
     public $defaultUserStatus = 10;
-
     /**
      * @var boolean If true then AccessControl only check if route are registered.
      */
     public $onlyRegisteredRoute = false;
-
     /**
      * @var boolean If false then AccessControl will check without Rule.
      */
     public $strict = true;
-
     /**
      * @var array
      */

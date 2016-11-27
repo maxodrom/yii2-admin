@@ -16,7 +16,7 @@ use yii\rbac\Item;
  *
  * @property integer $type
  * @property array $labels
- * 
+ *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
  * @since 1.0
  */
@@ -42,6 +42,7 @@ class ItemController extends Controller
 
     /**
      * Lists all AuthItem models.
+     *
      * @return mixed
      */
     public function actionIndex()
@@ -57,7 +58,9 @@ class ItemController extends Controller
 
     /**
      * Displays a single AuthItem model.
+     *
      * @param  string $id
+     *
      * @return mixed
      */
     public function actionView($id)
@@ -70,6 +73,7 @@ class ItemController extends Controller
     /**
      * Creates a new AuthItem model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -86,7 +90,9 @@ class ItemController extends Controller
     /**
      * Updates an existing AuthItem model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param  string $id
+     *
+     * @param string $id
+     *
      * @return mixed
      */
     public function actionUpdate($id)
@@ -102,7 +108,9 @@ class ItemController extends Controller
     /**
      * Deletes an existing AuthItem model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param  string $id
+     *
+     * @param string $id
+     *
      * @return mixed
      */
     public function actionDelete($id)
@@ -116,7 +124,9 @@ class ItemController extends Controller
 
     /**
      * Assign items
+     *
      * @param string $id
+     *
      * @return array
      */
     public function actionAssign($id)
@@ -131,7 +141,9 @@ class ItemController extends Controller
 
     /**
      * Assign or remove items
+     *
      * @param string $id
+     *
      * @return array
      */
     public function actionRemove($id)
@@ -154,6 +166,7 @@ class ItemController extends Controller
 
     /**
      * Label use in view
+     *
      * @throws NotSupportedException
      */
     public function labels()
@@ -163,17 +176,20 @@ class ItemController extends Controller
 
     /**
      * Type of Auth Item.
+     *
      * @return integer
      */
     public function getType()
     {
-        
+
     }
 
     /**
      * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param string $id
+     *
      * @return AuthItem the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

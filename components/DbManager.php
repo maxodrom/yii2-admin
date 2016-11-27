@@ -13,7 +13,8 @@ namespace mdm\admin\components;
  *
  * If you don't want to use migration and need SQL instead, files for all databases are in migrations directory.
  *
- * You may change the names of the three tables used to store the authorization data by setting [[\yii\rbac\DbManager::$itemTable]],
+ * You may change the names of the three tables used to store the authorization data by setting
+ * [[\yii\rbac\DbManager::$itemTable]],
  * [[\yii\rbac\DbManager::$itemChildTable]] and [[\yii\rbac\DbManager::$assignmentTable]].
  *
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
@@ -23,6 +24,7 @@ class DbManager extends \yii\rbac\DbManager
 {
     /**
      * Memory cache of assignments
+     *
      * @var array
      */
     private $_assignments = [];
@@ -36,6 +38,7 @@ class DbManager extends \yii\rbac\DbManager
         if (!isset($this->_assignments[$userId])) {
             $this->_assignments[$userId] = parent::getAssignments($userId);
         }
+
         return $this->_assignments[$userId];
     }
 
@@ -47,6 +50,7 @@ class DbManager extends \yii\rbac\DbManager
         if ($this->_childrenList === null) {
             $this->_childrenList = parent::getChildrenList();
         }
+
         return $this->_childrenList;
     }
 }
