@@ -72,4 +72,8 @@ return [
     'Assign' => 'Назначить',
     'Remove' => 'Удалить',
     ' --select rule' => ' --выберите правило',
+    'Active' => 'Активирован',
+    'Inactive' => 'Деактивирован',
+    'Activate' => 'Активировать',
+    'Are you sure you want to activate this user?' => 'Вы уверены, что хотите активировать данного пользователя?',
 ];
