@@ -53,17 +53,27 @@ class Menu extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['parent_name'], 'in',
+            [
+                ['parent_name'],
+                'in',
                 'range' => static::find()->select(['name'])->column(),
-                'message' => 'Menu "{value}" not found.'],
+                'message' => 'Menu "{value}" not found.'
+            ],
             [['parent', 'route', 'data', 'order'], 'default'],
-            [['parent'], 'filterParent', 'when' => function() {
-                return !$this->isNewRecord;
-            }],
+            [
+                ['parent'],
+                'filterParent',
+                'when' => function () {
+                    return !$this->isNewRecord;
+                }
+            ],
             [['order'], 'integer'],
-            [['route'], 'in',
+            [
+                ['route'],
+                'in',
                 'range' => static::getSavedRoutes(),
-                'message' => 'Route "{value}" not found.']
+                'message' => 'Route "{value}" not found.'
+            ]
         ];
     }
 
@@ -75,11 +85,12 @@ class Menu extends \yii\db\ActiveRecord
         $parent = $this->parent;
         $db = static::getDb();
         $query = (new Query)->select(['parent'])
-            ->from(static::tableName())
-            ->where('[[id]]=:id');
+                            ->from(static::tableName())
+                            ->where('[[id]]=:id');
         while ($parent) {
             if ($this->id == $parent) {
                 $this->addError('parent_name', 'Loop detected.');
+
                 return;
             }
             $parent = $query->params([':id' => $parent])->scalar($db);
@@ -104,6 +115,7 @@ class Menu extends \yii\db\ActiveRecord
 
     /**
      * Get menu parent
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getMenuParent()
@@ -113,16 +125,19 @@ class Menu extends \yii\db\ActiveRecord
 
     /**
      * Get menu children
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getMenus()
     {
         return $this->hasMany(Menu::className(), ['parent' => 'id']);
     }
+
     private static $_routes;
 
     /**
      * Get saved routes.
+     *
      * @return array
      */
     public static function getSavedRoutes()
@@ -135,16 +150,18 @@ class Menu extends \yii\db\ActiveRecord
                 }
             }
         }
+
         return self::$_routes;
     }
 
     public static function getMenuSource()
     {
         $tableName = static::tableName();
+
         return (new \yii\db\Query())
-                ->select(['m.id', 'm.name', 'm.route', 'parent_name' => 'p.name'])
-                ->from(['m' => $tableName])
-                ->leftJoin(['p' => $tableName], '[[m.parent]]=[[p.id]]')
-                ->all(static::getDb());
+            ->select(['m.id', 'm.name', 'm.route', 'parent_name' => 'p.name'])
+            ->from(['m' => $tableName])
+            ->leftJoin(['p' => $tableName], '[[m.parent]]=[[p.id]]')
+            ->all(static::getDb());
     }
 }

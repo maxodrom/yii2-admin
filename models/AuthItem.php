@@ -37,7 +37,8 @@ class AuthItem extends Model
 
     /**
      * Initialize object
-     * @param Item  $item
+     *
+     * @param Item $item
      * @param array $config
      */
     public function __construct($item = null, $config = [])
@@ -61,9 +62,13 @@ class AuthItem extends Model
         return [
             [['ruleName'], 'checkRule'],
             [['name', 'type'], 'required'],
-            [['name'], 'unique', 'when' => function () {
-                return $this->isNewRecord || ($this->_item->name != $this->name);
-            }],
+            [
+                ['name'],
+                'unique',
+                'when' => function () {
+                    return $this->isNewRecord || ($this->_item->name != $this->name);
+                }
+            ],
             [['type'], 'integer'],
             [['description', 'data', 'ruleName'], 'default'],
             [['name'], 'string', 'max' => 64],
@@ -124,6 +129,7 @@ class AuthItem extends Model
 
     /**
      * Check if is new record.
+     *
      * @return boolean
      */
     public function getIsNewRecord()
@@ -133,7 +139,9 @@ class AuthItem extends Model
 
     /**
      * Find role
+     *
      * @param string $id
+     *
      * @return null|\self
      */
     public static function find($id)
@@ -148,6 +156,7 @@ class AuthItem extends Model
 
     /**
      * Save role to [[\yii\rbac\authManager]]
+     *
      * @return boolean
      */
     public function save()
@@ -175,6 +184,7 @@ class AuthItem extends Model
                 $manager->update($oldName, $this->_item);
             }
             Helper::invalidate();
+
             return true;
         } else {
             return false;
@@ -183,7 +193,9 @@ class AuthItem extends Model
 
     /**
      * Adds an item as a child of another item.
+     *
      * @param array $items
+     *
      * @return int
      */
     public function addChildren($items)
@@ -207,12 +219,15 @@ class AuthItem extends Model
         if ($success > 0) {
             Helper::invalidate();
         }
+
         return $success;
     }
 
     /**
      * Remove an item as a child of another item.
+     *
      * @param array $items
+     *
      * @return int
      */
     public function removeChildren($items)
@@ -236,11 +251,13 @@ class AuthItem extends Model
         if ($success > 0) {
             Helper::invalidate();
         }
+
         return $success;
     }
 
     /**
      * Get items
+     *
      * @return array
      */
     public function getItems()
@@ -262,6 +279,7 @@ class AuthItem extends Model
             unset($available[$item->name]);
         }
         unset($available[$this->name]);
+
         return [
             'available' => $available,
             'assigned' => $assigned,
@@ -270,6 +288,7 @@ class AuthItem extends Model
 
     /**
      * Get item
+     *
      * @return Item
      */
     public function getItem()
@@ -279,7 +298,9 @@ class AuthItem extends Model
 
     /**
      * Get type name
+     *
      * @param  mixed $type
+     *
      * @return string|array
      */
     public static function getTypeName($type = null)

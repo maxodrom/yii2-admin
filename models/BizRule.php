@@ -41,6 +41,7 @@ class BizRule extends \yii\base\Model
 
     /**
      * Initilaize object
+     *
      * @param \yii\rbac\Rule $item
      * @param array $config
      */
@@ -74,11 +75,13 @@ class BizRule extends \yii\base\Model
         if (!class_exists($this->className)) {
             $message = Yii::t('rbac-admin', "Unknown class '{class}'", ['class' => $this->className]);
             $this->addError('className', $message);
+
             return;
         }
         if (!is_subclass_of($this->className, Rule::className())) {
             $message = Yii::t('rbac-admin', "'{class}' must extend from 'yii\rbac\Rule' or its child class", [
-                    'class' => $this->className]);
+                'class' => $this->className
+            ]);
             $this->addError('className', $message);
         }
     }
@@ -96,6 +99,7 @@ class BizRule extends \yii\base\Model
 
     /**
      * Check if new record.
+     *
      * @return boolean
      */
     public function getIsNewRecord()
@@ -105,7 +109,9 @@ class BizRule extends \yii\base\Model
 
     /**
      * Find model by id
+     *
      * @param type $id
+     *
      * @return null|static
      */
     public static function find($id)
@@ -120,6 +126,7 @@ class BizRule extends \yii\base\Model
 
     /**
      * Save model to authManager
+     *
      * @return boolean
      */
     public function save()
@@ -150,6 +157,7 @@ class BizRule extends \yii\base\Model
 
     /**
      * Get item
+     *
      * @return Item
      */
     public function getItem()

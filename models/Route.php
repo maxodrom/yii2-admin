@@ -22,7 +22,9 @@ class Route extends \yii\base\Object
 
     /**
      * Assign or remove items
+     *
      * @param array $routes
+     *
      * @return array
      */
     public function addNew($routes)
@@ -59,7 +61,9 @@ class Route extends \yii\base\Object
 
     /**
      * Assign or remove items
+     *
      * @param array $routes
+     *
      * @return array
      */
     public function remove($routes)
@@ -78,6 +82,7 @@ class Route extends \yii\base\Object
 
     /**
      * Get available and assigned routes
+     *
      * @return array
      */
     public function getRoutes()
@@ -92,6 +97,7 @@ class Route extends \yii\base\Object
             $exists[] = $name;
             unset($routes[$name]);
         }
+
         return [
             'available' => array_keys($routes),
             'assigned' => $exists,
@@ -100,6 +106,7 @@ class Route extends \yii\base\Object
 
     /**
      * Get list of application routes
+     *
      * @return array
      */
     public function getAppRoutes($module = null)
@@ -126,6 +133,7 @@ class Route extends \yii\base\Object
 
     /**
      * Get route(s) recursive
+     *
      * @param \yii\base\Module $module
      * @param array $result
      */
@@ -156,10 +164,12 @@ class Route extends \yii\base\Object
 
     /**
      * Get list controller under module
+     *
      * @param \yii\base\Module $module
      * @param string $namespace
      * @param string $prefix
      * @param mixed $result
+     *
      * @return mixed
      */
     protected function getControllerFiles($module, $namespace, $prefix, &$result)
@@ -182,7 +192,11 @@ class Route extends \yii\base\Object
                     $name = strtolower(preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $baseName));
                     $id = ltrim(str_replace(' ', '-', $name), '-');
                     $className = $namespace . $baseName . 'Controller';
-                    if (strpos($className, '-') === false && class_exists($className) && is_subclass_of($className, 'yii\base\Controller')) {
+                    if (
+                        strpos($className, '-') === false &&
+                        class_exists($className) &&
+                        is_subclass_of($className, 'yii\base\Controller')
+                    ) {
                         $this->getControllerActions($className, $prefix . $id, $module, $result);
                     }
                 }
@@ -195,6 +209,7 @@ class Route extends \yii\base\Object
 
     /**
      * Get list action of controller
+     *
      * @param mixed $type
      * @param string $id
      * @param \yii\base\Module $module
@@ -218,6 +233,7 @@ class Route extends \yii\base\Object
 
     /**
      * Get route of action
+     *
      * @param \yii\base\Controller $controller
      * @param array $result all controller action.
      */
@@ -233,7 +249,12 @@ class Route extends \yii\base\Object
             $class = new \ReflectionClass($controller);
             foreach ($class->getMethods() as $method) {
                 $name = $method->getName();
-                if ($method->isPublic() && !$method->isStatic() && strpos($name, 'action') === 0 && $name !== 'actions') {
+                if (
+                    $method->isPublic() &&
+                    !$method->isStatic() &&
+                    strpos($name, 'action') === 0 &&
+                    $name !== 'actions'
+                ) {
                     $name = strtolower(preg_replace('/(?<![A-Z])[A-Z]/', ' \0', substr($name, 6)));
                     $id = $prefix . ltrim(str_replace(' ', '-', $name), '-');
                     $result[$id] = $id;

@@ -27,7 +27,7 @@ class Assignment extends Object
     /**
      * @inheritdoc
      */
-    public function __construct($id, $user = null, $config = array())
+    public function __construct($id, $user = null, $config = [])
     {
         $this->id = $id;
         $this->user = $user;
@@ -36,7 +36,9 @@ class Assignment extends Object
 
     /**
      * Grands a roles from a user.
+     *
      * @param array $items
+     *
      * @return integer number of successful grand
      */
     public function assign($items)
@@ -54,12 +56,15 @@ class Assignment extends Object
             }
         }
         Helper::invalidate();
+
         return $success;
     }
 
     /**
      * Revokes a roles from a user.
+     *
      * @param array $items
+     *
      * @return integer number of successful revoke
      */
     public function revoke($items)
@@ -77,11 +82,13 @@ class Assignment extends Object
             }
         }
         Helper::invalidate();
+
         return $success;
     }
 
     /**
      * Get all available and assigned roles/permission
+     *
      * @return array
      */
     public function getItems()

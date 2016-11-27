@@ -1,4 +1,5 @@
 <?php
+
 namespace mdm\admin\models\form;
 
 use Yii;
@@ -21,7 +22,9 @@ class PasswordResetRequest extends Model
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'exist',
+            [
+                'email',
+                'exist',
                 'targetClass' => 'mdm\admin\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
                 'message' => 'There is no user with such email.'

@@ -41,7 +41,9 @@ class BizRule extends Model
 
     /**
      * Search BizRule
+     *
      * @param array $params
+     *
      * @return \yii\data\ActiveDataProvider|\yii\data\ArrayDataProvider
      */
     public function search($params)
