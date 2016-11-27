@@ -4,16 +4,20 @@ use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+/** @var $controller \yii\web\Controller */
+/** @var $module \mdm\admin\Module */
 
 $controller = $this->context;
-$menus = $controller->module->menus;
+$module = $controller->module;
+
+$menus = $module->menus;
 $route = $controller->route;
 foreach ($menus as $i => $menu) {
     $menus[$i]['active'] = strpos($route, trim($menu['url'][0], '/')) === 0;
 }
 $this->params['nav-items'] = $menus;
 ?>
-<?php $this->beginContent($controller->module->mainLayout) ?>
+<?php $this->beginContent($module->mainLayout) ?>
 <div class="row">
     <div class="col-sm-9">
         <?= $content ?>

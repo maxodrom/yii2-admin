@@ -4,8 +4,8 @@ use yii\bootstrap\NavBar;
 use yii\bootstrap\Nav;
 use yii\helpers\Html;
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/** @var $this \yii\web\View */
+/** @var $content string */
 
 list(,$url) = Yii::$app->assetManager->publish('@mdm/admin/assets');
 $this->registerCssFile($url.'/main.css');
