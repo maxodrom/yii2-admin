@@ -53,8 +53,10 @@ class UserController extends Controller
                 $this->_oldMailPath = $mailer->getViewPath();
                 $mailer->setViewPath('@mdm/admin/mail');
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -66,11 +68,13 @@ class UserController extends Controller
         if ($this->_oldMailPath !== null) {
             Yii::$app->getMailer()->setViewPath($this->_oldMailPath);
         }
+
         return parent::afterAction($action, $result);
     }
 
     /**
      * Lists all User models.
+     *
      * @return mixed
      */
     public function actionIndex()
@@ -79,27 +83,31 @@ class UserController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
      * Displays a single User model.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionView($id)
     {
         return $this->render('view', [
-                'model' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
      * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionDelete($id)
@@ -111,6 +119,7 @@ class UserController extends Controller
 
     /**
      * Login
+     *
      * @return string
      */
     public function actionLogin()
@@ -124,13 +133,14 @@ class UserController extends Controller
             return $this->goBack();
         } else {
             return $this->render('login', [
-                    'model' => $model,
+                'model' => $model,
             ]);
         }
     }
 
     /**
      * Logout
+     *
      * @return string
      */
     public function actionLogout()
@@ -142,6 +152,7 @@ class UserController extends Controller
 
     /**
      * Signup new user
+     *
      * @return string
      */
     public function actionSignup()
@@ -154,12 +165,13 @@ class UserController extends Controller
         }
 
         return $this->render('signup', [
-                'model' => $model,
+            'model' => $model,
         ]);
     }
 
     /**
      * Request reset password
+     *
      * @return string
      */
     public function actionRequestPasswordReset()
@@ -167,22 +179,30 @@ class UserController extends Controller
         $model = new PasswordResetRequest();
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->getSession()->setFlash('success', 'Check your email for further instructions.');
+                Yii::$app->getSession()->setFlash(
+                    'success',
+                    'Check your email for further instructions.'
+                );
 
                 return $this->goHome();
             } else {
-                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->getSession()->setFlash(
+                    'error',
+                    'Sorry, we are unable to reset password for email provided.'
+                );
             }
         }
 
         return $this->render('requestPasswordResetToken', [
-                'model' => $model,
+            'model' => $model,
         ]);
     }
 
     /**
      * Reset password
+     *
      * @return string
+     * @throws BadRequestHttpException
      */
     public function actionResetPassword($token)
     {
@@ -199,12 +219,13 @@ class UserController extends Controller
         }
 
         return $this->render('resetPassword', [
-                'model' => $model,
+            'model' => $model,
         ]);
     }
 
     /**
      * Reset password
+     *
      * @return string
      */
     public function actionChangePassword()
@@ -215,13 +236,15 @@ class UserController extends Controller
         }
 
         return $this->render('change-password', [
-                'model' => $model,
+            'model' => $model,
         ]);
     }
 
     /**
      * Activate new user
+     *
      * @param integer $id
+     *
      * @return type
      * @throws UserException
      * @throws NotFoundHttpException
@@ -239,13 +262,16 @@ class UserController extends Controller
                 throw new UserException(reset($errors));
             }
         }
+
         return $this->goHome();
     }
 
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
+     *
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

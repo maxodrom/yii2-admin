@@ -29,19 +29,23 @@ class RouteController extends Controller
             ],
         ];
     }
+
     /**
      * Lists all Route models.
+     *
      * @return mixed
      */
     public function actionIndex()
     {
         $model = new Route();
+
         return $this->render('index', ['routes' => $model->getRoutes()]);
     }
 
     /**
      * Creates a new AuthItem model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -51,11 +55,13 @@ class RouteController extends Controller
         $routes = preg_split('/\s*,\s*/', trim($routes), -1, PREG_SPLIT_NO_EMPTY);
         $model = new Route();
         $model->addNew($routes);
+
         return $model->getRoutes();
     }
 
     /**
      * Assign routes
+     *
      * @return array
      */
     public function actionAssign()
@@ -64,11 +70,13 @@ class RouteController extends Controller
         $model = new Route();
         $model->addNew($routes);
         Yii::$app->getResponse()->format = 'json';
+
         return $model->getRoutes();
     }
 
     /**
      * Remove routes
+     *
      * @return array
      */
     public function actionRemove()
@@ -77,18 +85,21 @@ class RouteController extends Controller
         $model = new Route();
         $model->remove($routes);
         Yii::$app->getResponse()->format = 'json';
+
         return $model->getRoutes();
     }
 
     /**
      * Refresh cache
-     * @return type
+     *
+     * @return array
      */
     public function actionRefresh()
     {
         $model = new Route();
         $model->invalidate();
         Yii::$app->getResponse()->format = 'json';
+
         return $model->getRoutes();
     }
 }
