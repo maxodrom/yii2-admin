@@ -52,10 +52,23 @@ class Module extends \yii\base\Module
      */
     public $mainLayout = '@mdm/admin/views/layouts/main.php';
     /**
+     * @var string Default url for breadcrumb
+     */
+    public $defaultUrl;
+    /**
+     * @var string Default url label for breadcrumb
+     */
+    public $defaultUrlLabel;
+    /**
      * @var array
      * @see [[menus]]
      */
     private $_menus = [];
+    /**
+     * @var array
+     * @see [[items]]
+     */
+    private $_normalizeMenus;
     /**
      * @var array
      * @see [[menus]]
@@ -69,21 +82,7 @@ class Module extends \yii\base\Module
         'rule' => 'Rules',
         'menu' => 'Menus',
     ];
-    /**
-     * @var array
-     * @see [[items]]
-     */
-    private $_normalizeMenus;
 
-    /**
-     * @var string Default url for breadcrumb
-     */
-    public $defaultUrl;
-
-    /**
-     * @var string Default url label for breadcrumb
-     */
-    public $defaultUrlLabel;
 
     /**
      * @inheritdoc
@@ -113,6 +112,7 @@ class Module extends \yii\base\Module
 
     /**
      * Get available menu.
+     *
      * @return array
      */
     public function getMenus()
@@ -125,16 +125,20 @@ class Module extends \yii\base\Module
             $config = components\Configs::instance();
             $conditions = [
                 'user' => $config->db && $config->db->schema->getTableSchema($config->userTable),
-                'assignment' => ($userClass = Yii::$app->getUser()->identityClass) && is_subclass_of($userClass, 'yii\db\BaseActiveRecord'),
+                'assignment' => ($userClass = Yii::$app->getUser()->identityClass) &&
+                                is_subclass_of($userClass, 'yii\db\BaseActiveRecord'),
                 'menu' => $config->db && $config->db->schema->getTableSchema($config->menuTable),
             ];
-            foreach ($this->_coreItems as $id => $lable) {
+            foreach ($this->_coreItems as $id => $label) {
                 if (!isset($conditions[$id]) || $conditions[$id]) {
-                    $this->_normalizeMenus[$id] = ['label' => Yii::t('rbac-admin', $lable), 'url' => [$mid . $id]];
+                    $this->_normalizeMenus[$id] = ['label' => Yii::t('rbac-admin', $label), 'url' => [$mid . $id]];
                 }
             }
             foreach (array_keys($this->controllerMap) as $id) {
-                $this->_normalizeMenus[$id] = ['label' => Yii::t('rbac-admin', Inflector::humanize($id)), 'url' => [$mid . $id]];
+                $this->_normalizeMenus[$id] = [
+                    'label' => Yii::t('rbac-admin', Inflector::humanize($id)),
+                    'url' => [$mid . $id]
+                ];
             }
 
             // user configure menus
@@ -146,18 +150,21 @@ class Module extends \yii\base\Module
                 if (is_string($value)) {
                     $value = ['label' => $value];
                 }
-                $this->_normalizeMenus[$id] = isset($this->_normalizeMenus[$id]) ? array_merge($this->_normalizeMenus[$id], $value)
-                : $value;
+                $this->_normalizeMenus[$id] =
+                    isset($this->_normalizeMenus[$id]) ?
+                        array_merge($this->_normalizeMenus[$id], $value) : $value;
                 if (!isset($this->_normalizeMenus[$id]['url'])) {
                     $this->_normalizeMenus[$id]['url'] = [$mid . $id];
                 }
             }
         }
+
         return $this->_normalizeMenus;
     }
 
     /**
      * Set or add available menu.
+     *
      * @param array $menus
      */
     public function setMenus($menus)
@@ -179,8 +186,10 @@ class Module extends \yii\base\Module
                 'label' => ($this->defaultUrlLabel ?: Yii::t('rbac-admin', 'Admin')),
                 'url' => ['/' . ($this->defaultUrl ?: $this->uniqueId)],
             ];
+
             return true;
         }
+
         return false;
     }
 }
