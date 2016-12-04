@@ -62,6 +62,7 @@ class AuthItem extends Model
         return [
             [['ruleName'], 'checkRule'],
             [['name', 'type'], 'required'],
+            ['name', 'trim'],
             [
                 ['name'],
                 'unique',
