@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\base\NotSupportedException;
 use yii\filters\VerbFilter;
 use yii\rbac\Item;
+use yii\web\Response;
 
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
@@ -22,7 +23,6 @@ use yii\rbac\Item;
  */
 class ItemController extends Controller
 {
-
     /**
      * @inheritdoc
      */
@@ -59,7 +59,7 @@ class ItemController extends Controller
     /**
      * Displays a single AuthItem model.
      *
-     * @param  string $id
+     * @param string $id
      *
      * @return mixed
      */
@@ -78,13 +78,13 @@ class ItemController extends Controller
      */
     public function actionCreate()
     {
-        $model = new AuthItem(null);
+        $model = new AuthItem();
         $model->type = $this->type;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->name]);
-        } else {
-            return $this->render('create', ['model' => $model]);
         }
+
+        return $this->render('create', ['model' => $model]);
     }
 
     /**
@@ -134,7 +134,7 @@ class ItemController extends Controller
         $items = Yii::$app->getRequest()->post('items', []);
         $model = $this->findModel($id);
         $success = $model->addChildren($items);
-        Yii::$app->getResponse()->format = 'json';
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
 
         return array_merge($model->getItems(), ['success' => $success]);
     }
@@ -151,7 +151,7 @@ class ItemController extends Controller
         $items = Yii::$app->getRequest()->post('items', []);
         $model = $this->findModel($id);
         $success = $model->removeChildren($items);
-        Yii::$app->getResponse()->format = 'json';
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
 
         return array_merge($model->getItems(), ['success' => $success]);
     }
@@ -175,13 +175,13 @@ class ItemController extends Controller
     }
 
     /**
-     * Type of Auth Item.
+     * Returns type of \yii\rbac\Item: TYPE_ROLE or TYPE_PERMISSION.
+     * Child classes must define their own implementation.
      *
      * @return integer
      */
     public function getType()
     {
-
     }
 
     /**

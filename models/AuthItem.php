@@ -67,7 +67,7 @@ class AuthItem extends Model
                 ['name'],
                 'unique',
                 'when' => function () {
-                    return $this->isNewRecord || ($this->_item->name != $this->name);
+                    return $this->getIsNewRecord() || ($this->_item->name != $this->name);
                 }
             ],
             [['type'], 'integer'],
