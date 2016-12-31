@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 use mdm\admin\components\RouteRule;
 use mdm\admin\components\Configs;
 
@@ -24,10 +25,14 @@ unset($rules[RouteRule::RULE_NAME]);
     <p>
         <?= Html::a(Yii::t('rbac-admin', 'Create ' . $labels['Item']), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?=
-    GridView::widget([
+
+    <?php Pjax::begin() ?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'options' => [
+            'class' => 'grid-view table-responsive',
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
@@ -37,15 +42,27 @@ unset($rules[RouteRule::RULE_NAME]);
             [
                 'attribute' => 'ruleName',
                 'label' => Yii::t('rbac-admin', 'Rule Name'),
-                'filter' => $rules
+                'filter' => $rules,
             ],
             [
                 'attribute' => 'description',
                 'label' => Yii::t('rbac-admin', 'Description'),
+                'headerOptions' => [
+                    'style' => 'width: 50%;',
+                ],
             ],
-            ['class' => 'yii\grid\ActionColumn',],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '<div class="btn-group">{view}{update}{delete}</div>',
+                'buttonOptions' => [
+                    'class' => 'btn btn-default btn-sm',
+                ],
+                'headerOptions' => [
+                    'style' => 'min-width: 120px !important;',
+                ],
+            ],
         ],
-    ])
-    ?>
+    ]) ?>
+    <?php Pjax::end(); ?>
 
 </div>
