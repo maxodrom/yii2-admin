@@ -3,18 +3,19 @@
 namespace mdm\admin\components;
 
 use Yii;
-use yii\db\Connection;
 use yii\caching\Cache;
-use yii\rbac\ManagerInterface;
-use yii\helpers\ArrayHelper;
+use yii\db\Connection;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
+use yii\rbac\ManagerInterface;
 
 /**
  * Configs
- * Used for configure some value. To set config you can use [[\yii\base\Application::$params]]
+ * Used to configure some values. To set config you can use [[\yii\base\Application::$params]]
  *
  * ```
  * return [
+ *
  *     'mdm.admin.configs' => [
  *         'db' => 'customDb',
  *         'menuTable' => '{{%admin_menu}}',
@@ -88,6 +89,11 @@ class Configs extends \yii\base\Object
     public $options;
 
     /**
+     * @var array|false
+     */
+    public $advanced;
+
+    /**
      * @var self Instance of self
      */
     private static $_instance;
@@ -95,7 +101,7 @@ class Configs extends \yii\base\Object
         'db' => 'yii\db\Connection',
         'userDb' => 'yii\db\Connection',
         'cache' => 'yii\caching\Cache',
-        'authManager' => 'yii\rbac\ManagerInterface'
+        'authManager' => 'yii\rbac\ManagerInterface',
     ];
 
     /**

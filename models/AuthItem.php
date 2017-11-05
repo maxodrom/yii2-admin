@@ -62,14 +62,9 @@ class AuthItem extends Model
         return [
             [['ruleName'], 'checkRule'],
             [['name', 'type'], 'required'],
-            ['name', 'trim'],
-            [
-                ['name'],
-                'unique',
-                'when' => function () {
-                    return $this->getIsNewRecord() || ($this->_item->name != $this->name);
-                }
-            ],
+            [['name'], 'checkUnique', 'when' => function () {
+                return $this->isNewRecord || ($this->_item->name != $this->name);
+            }],
             [['type'], 'integer'],
             [['description', 'data', 'ruleName'], 'default'],
             [['name'], 'string', 'max' => 64],
@@ -79,7 +74,7 @@ class AuthItem extends Model
     /**
      * Check role is unique
      */
-    public function unique()
+    public function checkUnique()
     {
         $authManager = Configs::authManager();
         $value = $this->name;
