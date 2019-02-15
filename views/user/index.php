@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'username',
             'email:email',
-            'created_at:date',
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
